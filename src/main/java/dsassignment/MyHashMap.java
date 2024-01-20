@@ -135,4 +135,36 @@ public class MyHashMap<K,V> implements Serializable {
         }
     }
   
+    //-------------------------------------------------search by index ------------------------------------------
+    public V getValueByIndex(K index) {
+        int hashCode = Math.abs(index.hashCode() % SIZE);
+        Entry<K, V> current = bucket[hashCode];
+
+        while (current != null) {
+            if (current.key.equals(index)) {
+                return current.getValue();
+            }
+            current = current.next;
+        }
+
+        return null; // Return null if the index is not found
+    }
+
+    
+    //-------------------------------------------------check if exist------------------------------------------
+    public boolean containsKey(K key) {
+        int hashCode = Math.abs(key.hashCode() % SIZE);
+        Entry<K, V> current = bucket[hashCode];
+    
+        while (current != null) {
+            if (current.key.equals(key)) {
+                return true;
+            }
+            current = current.next;
+        }
+    
+        return false;
+    }
+    
+
 }

@@ -16,6 +16,10 @@ public class DatabaseManager {
         databases = new MyHashMap<String,Object>();
     }
 
+    public Object searchByIndex(String index) {
+        return databases.getValueByIndex(index);
+    }
+
     public void Insert(String index, Number value) { //insert for Number value
        databases.put(index, value);
     }
@@ -65,6 +69,13 @@ public class DatabaseManager {
         }
     }
 
+    public Object searchByKeyOrValue(String keyOrValue) {
+        if (databases.containsKey(keyOrValue)) {
+            return databases.getValueByIndex(keyOrValue);
+        } else {
+            return null;
+        }
+    }
 
     @SuppressWarnings("unchecked")
     public MyHashMap<String, Object> loadData(String fileName) {

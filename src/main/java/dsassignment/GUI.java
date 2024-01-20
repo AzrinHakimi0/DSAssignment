@@ -151,6 +151,14 @@ public class GUI {
         userAlert = new JLabel("Enter string value");
         userAlert.setBounds(160, 280, 250, 15);
 
+        //search
+        JButton searchByIndexButton = new JButton("Search by Index");
+        searchByIndexButton.setBounds(650, 500, 150, 60); //err
+        JTextField searchIndexField = new JTextField();
+        searchIndexField.setBounds(800, 500, 200, 60);
+
+        searchByIndexButton.addActionListener(e -> searchByIndex(searchIndexField.getText()));
+
         setupTable(panel);
 
         panel.add(dataTypeLabel);
@@ -163,6 +171,8 @@ public class GUI {
         panel.add(clearButton);
         panel.add(userAlert);
         panel.add(currentFileName);
+        panel.add(searchByIndexButton);
+        panel.add(searchIndexField);
 
     }
 
@@ -270,6 +280,35 @@ public class GUI {
             manager.SaveData(filePath);
         } else {
             JOptionPane.showMessageDialog(null, "Please select a row to delete.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private static void searchByIndex(String index) {
+        Object result = manager.searchByIndex(index);
+    
+        if (result != null) {
+            if (result.getClass().isArray()) {
+                // Handle the case when the result is an array
+                Object[] arrayResult = (Object[]) result;
+                StringBuilder arrayString = new StringBuilder("[");
+                
+                for (int i = 0; i < arrayResult.length; i++) {
+                    arrayString.append(arrayResult[i]);
+    
+                    if (i < arrayResult.length - 1) {
+                        arrayString.append(", ");
+                    }
+                }
+    
+                arrayString.append("]");
+    
+                JOptionPane.showMessageDialog(null, "Value for Index " + index + ": " + arrayString.toString(), "Search Result", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // Handle the case when the result is not an array
+                JOptionPane.showMessageDialog(null, "Value for Index " + index + ": " + result, "Search Result", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Index " + index + " not found.", "Search Result", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
